@@ -12,6 +12,9 @@ def main():
     """Main execution function."""
     pygame.init()
     screen = pygame.display.set_mode(size=(SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
+    dt: float = 0.0
+    
     while True:
         log_state()
         for event in pygame.event.get():
@@ -20,7 +23,8 @@ def main():
             
         screen.fill(color="black")
         pygame.display.flip()
-        
+        dt = clock.tick(60) / 1000
+        print(dt)
 
 if __name__ == "__main__":
     main()
