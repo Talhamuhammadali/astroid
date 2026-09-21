@@ -16,7 +16,7 @@ class Shot(CircleShape):
     def draw(self, screen):
         pygame.draw.circle(
             screen,
-            color="white",
+    color="white",
             center=self.position,
             radius=self.radius,
             width=LINE_WIDTH               

@@ -7,6 +7,7 @@ from constants import (
     PLAYER_TURN_SPEED,
     PLAYER_SPEED,
     PLATER_SHOOT_SPEED,
+    PLATER_SHOOT_COOLDOWN_SECONDS,
     LINE_WIDTH
 )
 from shot import Shot
@@ -18,6 +19,7 @@ class Player(CircleShape):
     def __init__(self, x: float, y: float, radius: float = PLAYER_RADIUS ):
         super().__init__(x, y, radius)
         self.rotation : int = 0
+        self.cooldown_timer: float = 0
     
     def triangle(self) -> list[pygame.Vector2]:
         forward = pygame.Vector2(0, 1).rotate(self.rotation)   
@@ -58,9 +60,14 @@ class Player(CircleShape):
             self.move(-dt)
         if keys[pygame.K_SPACE]:
             self.shoot()
+            self.cooldown_timer -= dt
 
     def shoot(self):
         """Shoot mechanism for player."""
+        if self.cooldown_timer > 0:
+            return "Can not shoot."
+        else:
+            self.cooldown_timer = PLATER_SHOOT_COOLDOWN_SECONDS
         shot = Shot(x=self.position[0], y=self.position[1])
         shot_vec = pygame.Vector2(0, 1).rotate(self.rotation)
         shot.velocity = shot_vec * PLATER_SHOOT_SPEED
